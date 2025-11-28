@@ -21,12 +21,6 @@ const validate = () => {
   errors.email = ''
   errors.password = ''
 
-  if (!form.email) {
-    errors.email = 'Enter your email'
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-    errors.email = 'Wrong email'
-  }
-
   if (!form.password) {
     errors.password = 'Enter your password'
   }
@@ -36,26 +30,37 @@ const validate = () => {
 
 const profileStore = useProfileStore()
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (!validate()) return
-  const response = await fetch('localhost:5000', {
+  let response = await fetch('http://127.0.0.1:8000/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        login: form.email,
+        login_or_email: form.email,
         password: form.password
       })
     });
-  const result = await response.json();
+  let result = await response.json();
 
   if (response.status != 200) {
     alert('Incorrect login or password!')
     return;
   }
-  profileStore.scientist.name = result.name
-  profileStore.scientist.username = result.username
+
+  response = await fetch('http://127.0.0.1:8000/users/me', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${result.access_token}`,
+      }
+    });
+
+  result = await response.json()
+
+  profileStore.scientist.name = result.first_name + ' ' + result.last_name
+  profileStore.scientist.username = result.login
   router.push('/profile')
 }
 </script>
@@ -85,9 +90,9 @@ const handleSubmit = () => {
         </div>
         <div class="space-y-5">
           <BaseInput
-            label="Email"
+            label="Email / Username"
             v-model="form.email"
-            placeholder="Input your email"
+            placeholder="Input your email or username"
             autocomplete="email"
             :error="errors.email"
           />

@@ -39,7 +39,6 @@ const { sortPublications } = profileStore
       <div class="grid gap-6 lg:grid-cols-[340px,1fr]">
         <ScientistCard :scientist="scientist" />
         <div class="space-y-6">
-          <AnalyticsPanel :analytics="analytics" />
           <div class="grid gap-6 lg:grid-cols-1">
             <TopicDistributionChart :topics="topicDistribution" />
           </div>

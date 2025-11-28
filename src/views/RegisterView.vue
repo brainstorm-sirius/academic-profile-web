@@ -9,6 +9,7 @@ const router = useRouter()
 const form = reactive({
   firstName: '',
   lastName: '',
+  username: '',
   email: '',
   position: '',
   scopus: '',
@@ -84,6 +85,7 @@ const handleSubmit = () => {
         <div class="grid gap-6 md:grid-cols-2">
           <BaseInput label="First name" v-model="form.firstName" placeholder="John" :error="errors.firstName" autocomplete="given-name" />
           <BaseInput label="Surname" v-model="form.lastName" placeholder="Johnson" :error="errors.lastName" autocomplete="family-name" />
+          <BaseInput class="md:col-span-2" label="Username" v-model="form.username" placeholder="JohnSirius" :error="errors.lastName" autocomplete="family-name" />
           <BaseInput class="md:col-span-2" label="E-Mail" v-model="form.email" placeholder="name@siriusuniversity.ru" :error="errors.email" autocomplete="email" />
           <BaseInput class="md:col-span-2" label="Google Scholar ID" v-model="form.scholar" placeholder="YBxwE6gAAAAJ" :error="errors.orcid" autocomplete="off" />
           <BaseInput class="md:col-span-2" label="Scopus ID" v-model="form.scopus" placeholder="7003328281" :error="errors.orcid" autocomplete="off" />

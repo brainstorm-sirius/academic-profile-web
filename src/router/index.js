@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const LoginView = () => import('@/views/LoginView.vue')
 const RegisterView = () => import('@/views/RegisterView.vue')
 const ProfileView = () => import('@/views/ProfileView.vue')
+const AuthorView = () => import('@/views/AuthorView.vue')
 
 const router = createRouter({
   history: createWebHistory(),
@@ -25,6 +26,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: ProfileView
+    },
+    {
+      path: '/author',
+      name: 'author',
+      component: AuthorView
     }
   ],
   scrollBehavior() {

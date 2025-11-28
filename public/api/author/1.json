@@ -1,0 +1,70 @@
+{
+  "scientist": {
+    "username": "DariaNovikova",
+    "name": "Дарья Новикова",
+    "role": "Scientist, Quantum Computing Division",
+    "affiliation": "Sirius University",
+    "orcid": "0000-0003-5821-1189",
+    "about": "Занимаюсь разработкой гибридных квантово-классических алгоритмов для устойчивой энергетики и климатических симуляций. Руководитель лаборатории вычислительных материалов.",
+    "metrics": [
+      { "label": "H-Index", "value": "24" },
+      { "label": "Citations", "value": "1980" },
+      { "label": "Publications", "value": "51" }
+    ]
+  },
+  "analytics": {
+    "index": 3.2,
+    "average": 3.4,
+    "performance": "Overall Performance"
+  },
+  "topicDistribution": [
+    { "label": "Artificial intelligence", "value": 26, "color": "#5BC0F8" },
+    { "label": "Квантовые алгоритмы", "value": 30, "color": "#7C3AED" },
+    { "label": "Устойчивая энергия", "value": 18, "color": "#F2A541" },
+    { "label": "Материаловедение", "value": 16, "color": "#142850" },
+    { "label": "Биоинформатика", "value": 10, "color": "#38B2AC" }
+  ],
+  "publications": [
+    {
+      "id": 1,
+      "title": "Hybrid Quantum Kernels for Energy Forecasting",
+      "journal": "Quantum Energy Letters",
+      "year": 2024,
+      "citations": 165,
+      "summary": "Гибридные квантовые ядра для ускоренного прогнозирования потребления энергии в устойчивых сетях."
+    },
+    {
+      "id": 2,
+      "title": "Variational Circuits for Climate Simulations",
+      "journal": "AI for Earth Systems",
+      "year": 2023,
+      "citations": 188,
+      "summary": "Параметрические квантовые схемы, повышающие точность климатических цифровых двойников."
+    },
+    {
+      "id": 3,
+      "title": "Quantum-Assisted Catalyst Discovery",
+      "journal": "Materials Discovery Review",
+      "year": 2022,
+      "citations": 142,
+      "summary": "Квантово-классические оптимизаторы для поиска катализаторов хранения водорода."
+    },
+    {
+      "id": 4,
+      "title": "Adaptive Error Mitigation Pipelines",
+      "journal": "Computational Experiments",
+      "year": 2021,
+      "citations": 97,
+      "summary": "Алгоритмы подавления ошибок в квантовых симуляциях приборов устойчивой энергетики."
+    },
+    {
+      "id": 5,
+      "title": "Sparsity-Aware Quantum Annealing",
+      "journal": "Journal of Applied Physics",
+      "year": 2020,
+      "citations": 110,
+      "summary": "Системы квантового отжига для задач маршрутизации микрогридов с низким энергопотреблением."
+    }
+  ]
+}
+
