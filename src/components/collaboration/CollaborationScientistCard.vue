@@ -36,49 +36,49 @@ const getValue = (value) => {
     <div class="flex-1">
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <div>
-          <p class="mb-2 text-xs font-medium text-muted">Main Interest</p>
+          <p class="mb-2 text-xs font-medium text-muted">Main interest</p>
           <div class="inline-block rounded-lg bg-secondary/20 px-3 py-1">
             <span class="text-xs font-medium text-primary-dark">{{ getValue(scientist.main_interest) }}</span>
           </div>
         </div>
 
         <div>
-          <p class="mb-2 text-xs font-medium text-muted">Total Score</p>
+          <p class="mb-2 text-xs font-medium text-muted">Total score</p>
           <div class="inline-block rounded-lg bg-secondary/20 px-3 py-1">
             <span class="text-sm font-semibold text-primary-dark">{{ getValue(scientist.total_score) }}</span>
           </div>
         </div>
 
         <div>
-          <p class="mb-2 text-xs font-medium text-muted">Similarity Score</p>
+          <p class="mb-2 text-xs font-medium text-muted">Similarity score</p>
           <div class="inline-block rounded-lg bg-secondary/20 px-3 py-1">
             <span class="text-sm font-semibold text-primary-dark">{{ getValue(scientist.similarity_score) }}</span>
           </div>
         </div>
 
         <div>
-          <p class="mb-2 text-xs font-medium text-muted">Productivity Score</p>
+          <p class="mb-2 text-xs font-medium text-muted">Productivity score</p>
           <div class="inline-block rounded-lg bg-secondary/20 px-3 py-1">
             <span class="text-sm font-semibold text-primary-dark">{{ getValue(scientist.productivity_score) }}</span>
           </div>
         </div>
 
         <div>
-          <p class="mb-2 text-xs font-medium text-muted">Diversity Score</p>
+          <p class="mb-2 text-xs font-medium text-muted">Diversity score</p>
           <div class="inline-block rounded-lg bg-secondary/20 px-3 py-1">
             <span class="text-sm font-semibold text-primary-dark">{{ getValue(scientist.diversity_score) }}</span>
           </div>
         </div>
 
         <div>
-          <p class="mb-2 text-xs font-medium text-muted">Articles Count</p>
+          <p class="mb-2 text-xs font-medium text-muted">Articles count</p>
           <div class="inline-block rounded-lg bg-secondary/20 px-3 py-1">
             <span class="text-sm font-semibold text-primary-dark">{{ getValue(scientist.articles_count) }}</span>
           </div>
         </div>
 
         <div>
-          <p class="mb-2 text-xs font-medium text-muted">Interests Count</p>
+          <p class="mb-2 text-xs font-medium text-muted">Interests count</p>
           <div class="inline-block rounded-lg bg-secondary/20 px-3 py-1">
             <span class="text-sm font-semibold text-primary-dark">{{ getValue(scientist.interests_count) }}</span>
           </div>

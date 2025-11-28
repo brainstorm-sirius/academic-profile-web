@@ -10,7 +10,7 @@ const route = useRoute()
 const navItems = [
   { label: 'Dashboard', path: '/profile' },
   { label: 'Collaboration', path: '/collaboration' },
-  { label: 'Edit Interests', path: '/edit-interests' }
+  { label: 'Edit interests', path: '/edit-interests' }
 ]
 
 function logout() {

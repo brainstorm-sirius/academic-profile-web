@@ -1,5 +1,6 @@
 <script setup>
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { useProfileStore } from '@/stores/profile'
 import ProfileSidebar from '@/components/profile/ProfileSidebar.vue'
 import ScientistCard from '@/components/profile/ScientistCard.vue'
@@ -9,6 +10,7 @@ import TopicDistributionChart from '@/components/charts/TopicDistributionChart.v
 import CollaborationGraph from '@/components/charts/CollaborationGraph.vue'
 import PublicationList from '@/components/profile/PublicationList.vue'
 
+const router = useRouter()
 const profileStore = useProfileStore()
 const {
   scientist,
@@ -21,6 +23,10 @@ const {
 } = storeToRefs(profileStore)
 
 const { sortPublications } = profileStore
+
+const handleAddNew = () => {
+  router.push('/new-article')
+}
 </script>
 
 <template>
@@ -31,7 +37,10 @@ const { sortPublications } = profileStore
         <div>
           <h1 class="text-3xl font-bold text-primary-dark">Welcome, {{ scientist.name }}</h1>
         </div>
-        <button class="rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-primary-dark">
+        <button
+          @click="handleAddNew"
+          class="rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-primary-dark"
+        >
           Add new
         </button>
       </header>

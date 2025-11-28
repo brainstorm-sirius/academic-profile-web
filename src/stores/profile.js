@@ -4,21 +4,6 @@ import { useInterestsStore } from './interests'
 
 export const useProfileStore = defineStore('profile', () => {
   const interestsStore = useInterestsStore()
-  const scientist = ref({
-    id: 0,
-    username: 'EgorPetryaev',
-    name: 'Egor Petryaev',
-    role: 'Scientist, Artificial Intelligence Laboratory',
-    affiliation: 'Sirius University',
-    orcid: '0000-0002-3740-1122',
-    about:
-      'Исследую приложения генеративных моделей для климатического моделирования и устойчивой энергетики. Руководитель инициатив по цифровым двойникам научных лабораторий.',
-    metrics: [
-      { label: 'H-Index', value: '28' },
-      { label: 'Citations', value: '2540' },
-      { label: 'Publications', value: '64' }
-    ]
-  })
 
   // Проверяем наличие токена в localStorage при инициализации
   const token = ref(localStorage.getItem('auth_token') || null)
@@ -136,6 +121,27 @@ export const useProfileStore = defineStore('profile', () => {
     }
   ])
 
+  let citationsCount = 0
+  for (const item of publications.value) {
+    citationsCount += item.citations
+  }
+
+  const scientist = ref({
+    id: 0,
+    username: 'EgorPetryaev',
+    name: 'Egor Petryaev',
+    role: 'Scientist, Artificial Intelligence Laboratory',
+    affiliation: 'Sirius University',
+    orcid: '0000-0002-3740-1122',
+    about:
+      'Исследую приложения генеративных моделей для климатического моделирования и устойчивой энергетики. Руководитель инициатив по цифровым двойникам научных лабораторий.',
+    metrics: [
+      { label: 'H-Index', value: '28' },
+      { label: 'Citations', value: citationsCount },
+      { label: 'Publications', value: publications.value.length }
+    ]
+  })
+
   const years = computed(() =>
     Array.from(new Set(publications.value.map((p) => p.year))).sort((a, b) => b - a)
   )
@@ -200,6 +206,12 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
+  const updateHIndex = (value) => {
+    const hIndexMetric = scientist.value.metrics.find(m => m.label === 'H-Index')
+    if (hIndexMetric) {
+      hIndexMetric.value = value
+    }
+  }
 
   return {
     isAuthorised,
@@ -213,7 +225,8 @@ export const useProfileStore = defineStore('profile', () => {
     years,
     sortPublications,
     setAuthToken,
-    checkAuth
+    checkAuth,
+    updateHIndex
   }
 })
 
