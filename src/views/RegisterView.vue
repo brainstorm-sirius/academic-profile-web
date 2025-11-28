@@ -100,20 +100,27 @@ const handleSubmit = async () => {
     return;
   }
 
+  // Сохраняем токен сразу после получения
+  const accessToken = result.access_token
+  profileStore.setAuthToken(accessToken)
+
   response = await fetch('http://127.0.0.1:8000/users/me', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${result.access_token}`,
+        'Authorization': `Bearer ${accessToken}`,
       }
     });
 
   result = await response.json()
 
+  // Обновляем данные пользователя
   profileStore.scientist.name = result.first_name + ' ' + result.last_name
   profileStore.scientist.username = result.login
   router.push('/profile')
 }
+
+if (profileStore.isAuthorised) router.push('/profile')
 </script>
 
 <template>

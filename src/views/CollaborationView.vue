@@ -10,22 +10,13 @@ const { recommendations, loading, error } = storeToRefs(collaborationStore)
 const { fetchRecommendations } = collaborationStore
 
 const count = ref('10')
-const filterType = ref('interests')
-const filterValue = ref('')
 
-const filterOptions = [
-  { value: 'interests', label: 'By interests'},
-  { value: 'journal', label: 'By scientific journal' },
-  { value: 'year', label: 'By publication year' }
-]
 
-const countOptions = ['5', '10', '15', '20', '25', '30']
+const countOptions = ['5', '10', '15', '20', '25', '30', '100']
 
 const handleRecommend = () => {
   fetchRecommendations({
-    count: count.value,
-    filter: filterType.value,
-    filterValue: filterValue.value
+    count: count.value
   })
 }
 </script>
@@ -38,7 +29,7 @@ const handleRecommend = () => {
         <h1 class="mb-6 text-3xl font-bold text-primary-dark">Collaboration</h1>
 
         <div class="mb-6 rounded-2xl bg-white p-6 shadow-card">
-          <div class="grid gap-4 md:grid-cols-3">
+          <div class="grid gap-4 md:grid-cols-2">
             <div>
               <label class="mb-2 block text-sm font-medium text-primary-dark">
                 Count of authors
@@ -49,24 +40,6 @@ const handleRecommend = () => {
               >
                 <option v-for="option in countOptions" :key="option" :value="option">
                   {{ option }}
-                </option>
-              </select>
-            </div>
-
-            <div>
-              <label class="mb-2 block text-sm font-medium text-primary-dark">
-                Sort
-              </label>
-              <select
-                v-model="filterType"
-                class="w-full rounded-xl border border-border bg-surface px-4 py-2 text-sm font-medium text-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
-              >
-                <option
-                  v-for="option in filterOptions"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.label }}
                 </option>
               </select>
             </div>
@@ -102,7 +75,7 @@ const handleRecommend = () => {
       <div v-else-if="recommendations.length > 0" class="grid gap-4 md:grid-cols-2">
         <CollaborationScientistCard
           v-for="scientist in recommendations"
-          :key="scientist.id"
+          :key="scientist.author_id"
           :scientist="scientist"
         />
       </div>

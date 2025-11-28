@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+import { useProfileStore } from './profile'
+const profileStore = useProfileStore()
+
 export const useCollaborationStore = defineStore('collaboration', () => {
   const recommendations = ref([])
   const loading = ref(false)
@@ -17,7 +20,28 @@ export const useCollaborationStore = defineStore('collaboration', () => {
         ...(params.filterValue && { filterValue: params.filterValue })
       })
 
-      const response = await fetch(`/api/collaboration/recommendations.json?${queryParams}`)
+      const interestsFull = profileStore.topicDistribution
+      const interests = []
+      for (const item of interestsFull) {
+        interests.push(item.label)
+      }
+
+      const publicationsFull = profileStore.publications
+      const publications = []
+      for (const item of publicationsFull) {
+        publications.push(item.title)
+      }
+
+      const response = await fetch(`http://localhost:8000/recommend`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          interests: interests,
+          publications: publications,
+          num_recommendations: params.count || '10'
+      })})
 
       if (!response.ok) {
         throw new Error('Error occured during the loading.')

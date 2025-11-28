@@ -21,7 +21,7 @@ export const useAuthorStore = defineStore('author', () => {
     error.value = null
 
     try {
-      const response = await fetch(`/api/author/${authorId}.json`)
+      const response = await fetch(`http://localhost:8000/authors/${authorId}/profile`)
 
       if (!response.ok) {
         throw new Error('Не удалось загрузить данные автора')

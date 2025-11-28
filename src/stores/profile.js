@@ -5,6 +5,7 @@ import { useInterestsStore } from './interests'
 export const useProfileStore = defineStore('profile', () => {
   const interestsStore = useInterestsStore()
   const scientist = ref({
+    id: 0,
     username: 'EgorPetryaev',
     name: 'Egor Petryaev',
     role: 'Scientist, Artificial Intelligence Laboratory',
@@ -18,6 +19,10 @@ export const useProfileStore = defineStore('profile', () => {
       { label: 'Publications', value: '64' }
     ]
   })
+
+  // Проверяем наличие токена в localStorage при инициализации
+  const token = ref(localStorage.getItem('auth_token') || null)
+  const isAuthorised = ref(!!token.value)
 
   const analytics = ref({
     index: 3.5,
@@ -149,7 +154,56 @@ export const useProfileStore = defineStore('profile', () => {
     })
   }
 
+  const setAuthToken = (authToken) => {
+    token.value = authToken
+    if (authToken) {
+      localStorage.setItem('auth_token', authToken)
+      isAuthorised.value = true
+    } else {
+      localStorage.removeItem('auth_token')
+      isAuthorised.value = false
+    }
+  }
+
+  const checkAuth = async () => {
+    const savedToken = localStorage.getItem('auth_token')
+    if (!savedToken) {
+      isAuthorised.value = false
+      return false
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/users/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${savedToken}`,
+        }
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        token.value = savedToken
+        isAuthorised.value = true
+        scientist.value.name = result.first_name + ' ' + result.last_name
+        scientist.value.username = result.login
+        return true
+      } else {
+        // Токен невалиден, удаляем его
+        setAuthToken(null)
+        return false
+      }
+    } catch (err) {
+      console.error('Auth check failed:', err)
+      setAuthToken(null)
+      return false
+    }
+  }
+
+
   return {
+    isAuthorised,
+    token,
     scientist,
     analytics,
     citationSeries,
@@ -157,7 +211,9 @@ export const useProfileStore = defineStore('profile', () => {
     collaborators,
     publications,
     years,
-    sortPublications
+    sortPublications,
+    setAuthToken,
+    checkAuth
   }
 })
 

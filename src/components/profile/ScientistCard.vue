@@ -16,7 +16,7 @@ defineProps({
   <section class="rounded-2xl bg-white p-6 shadow-card">
     <div class="flex flex-col items-center text-center">
       <img
-        src="/src/assets/img/brain_icon.svg"
+        src="/src/assets/img/avatar.png"
         alt="avatar"
         class="mb-4 h-28 w-28 rounded-full object-cover shadow-md"
       />
@@ -24,11 +24,6 @@ defineProps({
       <p class="mb-1 text-sm font-semibold text-primary-dark">{{ scientist.orcid }}</p>
       <h2 class="mb-1 text-2xl font-bold text-primary-dark">{{ scientist.name }}</h2>
       <p class="text-sm text-black" v-if="!isAuthor">{{ scientist.username }}</p>
-      <p class="text-sm text-muted" v-if="!isAuthor">{{ scientist.affiliation }}</p>
-      <p class="mt-2 text-base font-medium text-primary-dark" v-if="!isAuthor">{{ scientist.role }}</p>
-      <p class="mt-4 text-sm leading-relaxed text-slate-600" v-if="!isAuthor">
-        {{ scientist.about }}
-      </p>
     </div>
 
     <div class="mt-6 grid grid-cols-3 gap-3">

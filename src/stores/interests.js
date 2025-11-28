@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+import { useProfileStore } from './profile'
+
 export const useInterestsStore = defineStore('interests', () => {
   const predefinedInterests = ref([
     'Molecular Biology',
@@ -39,6 +41,8 @@ export const useInterestsStore = defineStore('interests', () => {
     'Interdisciplinary Studies'
   ])
 
+  const profileStore = useProfileStore()
+
   const selectedInterests = ref([])
 
   const addInterest = (interest) => {
@@ -67,6 +71,16 @@ export const useInterestsStore = defineStore('interests', () => {
     // For now, we'll just keep it in the store
     // topicDistribution in profileStore will automatically update via computed
     console.log('Saving interests:', selectedInterests.value)
+    fetch('http://localhost:8000/users/interests', {  
+      method: 'PUT',  
+      headers: {  
+          'Content-Type': 'application/json',  
+      },  
+      body: JSON.stringify({  
+          login: profileStore.scientist.username,  
+          interests_list: selectedInterests.value
+      })  
+  })  
   }
 
   return {

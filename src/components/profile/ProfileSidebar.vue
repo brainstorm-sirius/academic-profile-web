@@ -1,5 +1,8 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
+import { useProfileStore } from '../../stores/profile'
+
+const profileStore = useProfileStore()
 
 const router = useRouter()
 const route = useRoute()
@@ -11,6 +14,7 @@ const navItems = [
 ]
 
 function logout() {
+  profileStore.setAuthToken(null)
   router.push('/login')
 }
 </script>
