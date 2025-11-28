@@ -4,6 +4,8 @@ const LoginView = () => import('@/views/LoginView.vue')
 const RegisterView = () => import('@/views/RegisterView.vue')
 const ProfileView = () => import('@/views/ProfileView.vue')
 const AuthorView = () => import('@/views/AuthorView.vue')
+const CollaborationView = () => import('@/views/CollaborationView.vue')
+const EditInterestsView = () => import('@/views/EditInterestsView.vue')
 
 const router = createRouter({
   history: createWebHistory(),
@@ -31,6 +33,16 @@ const router = createRouter({
       path: '/author',
       name: 'author',
       component: AuthorView
+    },
+    {
+      path: '/collaboration',
+      name: 'collaboration',
+      component: CollaborationView
+    },
+    {
+      path: '/edit-interests',
+      name: 'edit-interests',
+      component: EditInterestsView
     }
   ],
   scrollBehavior() {

@@ -3,6 +3,11 @@ defineProps({
   scientist: {
     type: Object,
     required: true
+  },
+  isAuthor: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 </script>
@@ -18,10 +23,10 @@ defineProps({
       <p class="text-xs uppercase tracking-[0.4em] text-secondary">ORCID</p>
       <p class="mb-1 text-sm font-semibold text-primary-dark">{{ scientist.orcid }}</p>
       <h2 class="mb-1 text-2xl font-bold text-primary-dark">{{ scientist.name }}</h2>
-      <p class="text-sm text-black">{{ scientist.username }}</p>
-      <p class="text-sm text-muted">{{ scientist.affiliation }}</p>
-      <p class="mt-2 text-base font-medium text-primary-dark">{{ scientist.role }}</p>
-      <p class="mt-4 text-sm leading-relaxed text-slate-600">
+      <p class="text-sm text-black" v-if="!isAuthor">{{ scientist.username }}</p>
+      <p class="text-sm text-muted" v-if="!isAuthor">{{ scientist.affiliation }}</p>
+      <p class="mt-2 text-base font-medium text-primary-dark" v-if="!isAuthor">{{ scientist.role }}</p>
+      <p class="mt-4 text-sm leading-relaxed text-slate-600" v-if="!isAuthor">
         {{ scientist.about }}
       </p>
     </div>

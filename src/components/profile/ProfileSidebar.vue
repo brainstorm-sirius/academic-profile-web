@@ -1,11 +1,13 @@
 <script setup>
-import {useRouter} from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 
 const navItems = [
   { label: 'Dashboard', path: '/profile' },
-  { label: 'Collaboration', path: '/profile#collaboration' }
+  { label: 'Collaboration', path: '/collaboration' },
+  { label: 'Edit Interests', path: '/edit-interests' }
 ]
 
 function logout() {
@@ -26,17 +28,23 @@ function logout() {
       </div>
 
       <nav class="space-y-2">
-        <a
+        <router-link
           v-for="item in navItems"
           :key="item.label"
-          :href="item.path"
-          class="block rounded-xl px-4 py-3 text-base font-medium transition hover:bg-secondary/20 hover:text-primary"
+          :to="item.path"
+          :class="[
+            'block rounded-xl px-4 py-3 text-base font-medium transition',
+            route.path === item.path
+              ? 'bg-secondary/20 text-primary'
+              : 'hover:bg-secondary/20 hover:text-primary'
+          ]"
         >
           {{ item.label }}
-        </a>
+        </router-link>
       </nav>
       </div>
-      <div class="logout cursor-pointer" @click="logout">
+      <div class="logout cursor-pointer flex gap-3" @click="logout">
+        <img src="@/assets/img/log_out_icon.svg">
         <p class="logout-text">Log out</p>
       </div>
     </div>

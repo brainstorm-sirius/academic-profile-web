@@ -1,9 +1,11 @@
 <script setup>
 import { reactive } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
+import { useProfileStore } from '../stores/profile'
 import BaseInput from '@/components/base/BaseInput.vue'
 import BaseSelect from '@/components/base/BaseSelect.vue'
 
+const profileStore = useProfileStore()
 const router = useRouter()
 
 const form = reactive({
@@ -43,7 +45,7 @@ const validate = () => {
     errors.email = 'Wrong email'
   }
 
-  if (form.password.length < 6) {
+  if (form.password.length < 8) {
     errors.password = 'Use more symbols'
   }
 
@@ -54,8 +56,62 @@ const validate = () => {
   return Object.values(errors).every((message) => !message)
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (!validate()) return
+  let response = await fetch('http://127.0.0.1:8000/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login: form.username,
+        email: form.email,
+        first_name: form.firstName,
+        last_name: form.lastName,
+        google_scholar_id: form.scholar,
+        scopus_id: form.scopus,
+        wos_id: form.wos,
+        rsci_id: form.rsci,
+        orcid_id: form.orcid,
+        password: form.password
+      })
+    });
+  let result = await response.json();
+
+  if (response.status != 201) {
+    alert('Error occures during the registration. Try again later.')
+    return;
+  }
+
+  response = await fetch('http://127.0.0.1:8000/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login_or_email: form.email,
+        password: form.password
+      })
+    });
+  result = await response.json();
+
+  if (response.status != 200) {
+    alert('Incorrect login or password!')
+    return;
+  }
+
+  response = await fetch('http://127.0.0.1:8000/users/me', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${result.access_token}`,
+      }
+    });
+
+  result = await response.json()
+
+  profileStore.scientist.name = result.first_name + ' ' + result.last_name
+  profileStore.scientist.username = result.login
   router.push('/profile')
 }
 </script>
@@ -63,14 +119,14 @@ const handleSubmit = () => {
 <template>
   <div class="flex min-h-screen flex-col lg:flex-row">
     <section
-      class="hidden flex-1 items-end bg-cover bg-center px-10 py-12 text-white lg:flex"
+      class="hidden flex-1 items-end bg-cover bg-center px-10 py-12 text-white lg:flex h-screen sticky top-0"
       style="background-image: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)), url('/img/login_background.jpg');"
     >
       <div>
         <div class="mb-8 text-white">
           <img src="@/assets/img/sirius_university_logo.svg" alt="Sirius University" class="w-100">
         </div>
-        <h1 class="text-5xl font-bold leading-tight text-white">Sign Up</h1>
+        <h1 class="text-5xl font-bold leading-tight text-white">Signing Up</h1>
       </div>
     </section>
 

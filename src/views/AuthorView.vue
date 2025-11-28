@@ -61,7 +61,7 @@ watch(() => route.query.id, () => {
       </div>
       <template v-else>
         <div class="grid gap-6 lg:grid-cols-[340px,1fr]">
-          <ScientistCard v-if="scientist" :scientist="scientist" />
+          <ScientistCard v-if="scientist" :scientist="scientist" :isAuthor="true" />
           <div class="space-y-6">
             <div class="grid gap-6 lg:grid-cols-1">
               <TopicDistributionChart :topics="topicDistribution" />

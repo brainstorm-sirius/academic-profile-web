@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useInterestsStore } from './interests'
 
 export const useProfileStore = defineStore('profile', () => {
+  const interestsStore = useInterestsStore()
   const scientist = ref({
     username: 'EgorPetryaev',
     name: 'Egor Petryaev',
@@ -33,13 +35,45 @@ export const useProfileStore = defineStore('profile', () => {
     { year: 2024, value: 830 }
   ])
 
-  const topicDistribution = ref([
-    { label: 'Artificial intelligence', value: 32, color: '#5BC0F8' },
-    { label: 'Климатические модели', value: 24, color: '#142850' },
-    { label: 'Устойчивая энергия', value: 18, color: '#F2A541' },
-    { label: 'Квантовые алгоритмы', value: 14, color: '#7C3AED' },
-    { label: 'Биоинформатика', value: 12, color: '#38B2AC' }
-  ])
+  // Color palette for interests
+  const colorPalette = [
+    '#5BC0F8', // secondary blue
+    '#142850', // dark blue
+    '#F2A541', // accent orange
+    '#7C3AED', // purple
+    '#38B2AC', // teal
+    '#EF4444', // red
+    '#10B981', // green
+    '#F59E0B', // amber
+    '#8B5CF6', // violet
+    '#EC4899'  // pink
+  ]
+
+  // Generate consistent color for an interest based on its name
+  const getInterestColor = (interestName) => {
+    let hash = 0
+    for (let i = 0; i < interestName.length; i++) {
+      hash = interestName.charCodeAt(i) + ((hash << 5) - hash)
+    }
+    return colorPalette[Math.abs(hash) % colorPalette.length]
+  }
+
+  // Compute topicDistribution from selectedInterests
+  const topicDistribution = computed(() => {
+    const selected = interestsStore.selectedInterests
+    if (selected.length === 0) {
+      // Return empty array or default values if no interests selected
+      return []
+    }
+    
+    // Calculate values based on order (first selected gets highest value)
+    const total = selected.length
+    return selected.map((interest, index) => ({
+      label: interest,
+      value: Math.max(10, 100 - (index * (90 / total))), // Distribute values from 100 to 10
+      color: getInterestColor(interest)
+    }))
+  })
 
   const collaborators = ref([
     { name: 'Анна Крылова', field: 'Нейроархитектуры', weight: 1.0 },

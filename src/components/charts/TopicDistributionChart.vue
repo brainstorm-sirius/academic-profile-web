@@ -38,11 +38,11 @@ const chartOptions = {
 <template>
   <section class="rounded-2xl bg-white p-6 shadow-card">
     <header class="mb-4">
-      <h3 class="text-2xl font-bold text-primary-dark">Publication topics</h3>
+      <h3 class="text-2xl font-bold text-primary-dark">Scientific interests</h3>
     </header>
 
     <div class="flex flex-col flex-align-center gap-6 lg:flex-row">
-      <ul class="flex flex-1 flex-col justify-center gap-3">
+      <ul v-if="topics.length > 0" class="flex flex-1 flex-col justify-center gap-3">
         <li
           v-for="topic in topics"
           :key="topic.label"
@@ -54,6 +54,9 @@ const chartOptions = {
           </div>
         </li>
       </ul>
+      <div v-else class="flex flex-1 items-center justify-center py-8">
+        <p class="text-muted">No interests selected. <router-link to="/edit-interests" class="text-secondary hover:underline">Edit interests</router-link></p>
+      </div>
     </div>
   </section>
 </template>

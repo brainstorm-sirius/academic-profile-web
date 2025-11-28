@@ -1,0 +1,59 @@
+{
+    "recommendations": [
+      {
+        "id": 1,
+        "name": "Egor Petriaev",
+        "affiliation": "Sirius University",
+        "avatar": "/src/assets/img/brain_icon.svg",
+        "topics": ["Physics", "Artificial Intelligence"],
+        "hIndex": 7,
+        "publications": ["Direct Air Capture Integrated Car", "Artificial Intelligence for Study"]
+      },
+      {
+        "id": 2,
+        "name": "Дарья Новикова",
+        "affiliation": "Sirius University",
+        "avatar": "/src/assets/img/brain_icon.svg",
+        "topics": ["Квантовые алгоритмы", "Материаловедение"],
+        "hIndex": 24,
+        "publications": ["Hybrid Quantum Kernels for Energy Forecasting", "Variational Circuits for Climate Simulations"]
+      },
+      {
+        "id": 3,
+        "name": "Анна Крылова",
+        "affiliation": "Sirius University",
+        "avatar": "/src/assets/img/brain_icon.svg",
+        "topics": ["Нейроархитектуры", "Machine Learning"],
+        "hIndex": 15,
+        "publications": ["Deep Neural Networks for Climate", "Advanced AI Systems"]
+      },
+      {
+        "id": 4,
+        "name": "Сергей Ефимов",
+        "affiliation": "Sirius University",
+        "avatar": "/src/assets/img/brain_icon.svg",
+        "topics": ["Климатология", "Environmental Science"],
+        "hIndex": 18,
+        "publications": ["Climate Modeling Techniques", "Sustainable Energy Solutions"]
+      },
+      {
+        "id": 5,
+        "name": "Марк Панов",
+        "affiliation": "Sirius University",
+        "avatar": "/src/assets/img/brain_icon.svg",
+        "topics": ["Робототехника", "Autonomous Systems"],
+        "hIndex": 12,
+        "publications": ["Robotic Automation", "AI in Robotics"]
+      },
+      {
+        "id": 6,
+        "name": "Виктория Ли",
+        "affiliation": "Sirius University",
+        "avatar": "/src/assets/img/brain_icon.svg",
+        "topics": ["Квантовые вычисления", "Quantum Physics"],
+        "hIndex": 20,
+        "publications": ["Quantum Computing Advances", "Quantum Algorithms"]
+      }
+    ]
+  }
+  
