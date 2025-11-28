@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
+import { useProfileStore } from '../stores/profile'
 import BaseInput from '@/components/base/BaseInput.vue'
 
 const router = useRouter()
@@ -33,8 +34,28 @@ const validate = () => {
   return !errors.email && !errors.password
 }
 
+const profileStore = useProfileStore()
+
 const handleSubmit = () => {
   if (!validate()) return
+  const response = await fetch('localhost:5000', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login: form.email,
+        password: form.password
+      })
+    });
+  const result = await response.json();
+
+  if (response.status != 200) {
+    alert('Incorrect login or password!')
+    return;
+  }
+  profileStore.scientist.name = result.name
+  profileStore.scientist.username = result.username
   router.push('/profile')
 }
 </script>

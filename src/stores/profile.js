@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 
 export const useProfileStore = defineStore('profile', () => {
   const scientist = ref({
+    username: 'EgorPetryaev',
     name: 'Egor Petryaev',
     role: 'Scientist, Artificial Intelligence Laboratory',
     affiliation: 'Sirius University',
