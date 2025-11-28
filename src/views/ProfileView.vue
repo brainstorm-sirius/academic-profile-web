@@ -1,0 +1,59 @@
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useProfileStore } from '@/stores/profile'
+import ProfileSidebar from '@/components/profile/ProfileSidebar.vue'
+import ScientistCard from '@/components/profile/ScientistCard.vue'
+import AnalyticsPanel from '@/components/profile/AnalyticsPanel.vue'
+import CitationTrendChart from '@/components/charts/CitationTrendChart.vue'
+import TopicDistributionChart from '@/components/charts/TopicDistributionChart.vue'
+import CollaborationGraph from '@/components/charts/CollaborationGraph.vue'
+import PublicationList from '@/components/profile/PublicationList.vue'
+
+const profileStore = useProfileStore()
+const {
+  scientist,
+  analytics,
+  citationSeries,
+  topicDistribution,
+  collaborators,
+  publications,
+  years
+} = storeToRefs(profileStore)
+
+const { sortPublications } = profileStore
+</script>
+
+<template>
+  <div class="flex min-h-screen flex-col bg-surface lg:flex-row">
+    <ProfileSidebar />
+    <main class="flex-1 px-4 py-8 lg:px-10">
+      <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-bold text-primary-dark">Welcome, {{ scientist.name }}</h1>
+        </div>
+        <button class="rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-primary-dark">
+          Add new
+        </button>
+      </header>
+
+      <div class="grid gap-6 lg:grid-cols-[340px,1fr]">
+        <ScientistCard :scientist="scientist" />
+        <div class="space-y-6">
+          <AnalyticsPanel :analytics="analytics" />
+          <div class="grid gap-6 lg:grid-cols-1">
+            <TopicDistributionChart :topics="topicDistribution" />
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <PublicationList
+          :publications="publications"
+          :years="years"
+          :sorter="sortPublications"
+        />
+      </div>
+    </main>
+  </div>
+</template>
+
