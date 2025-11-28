@@ -274,6 +274,39 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
+  const deleteUserPublication = async (publicationId) => {
+    const savedToken = token.value || localStorage.getItem('auth_token')
+    const userId = scientist.value.id
+
+    if (!savedToken || !userId || !publicationId) {
+      return false
+    }
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/users/${userId}/publications/${publicationId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${savedToken}`
+          }
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to delete publication')
+      }
+
+      publications.value = publications.value.filter((item) => item.id !== publicationId)
+      syncPublicationMetrics()
+      return true
+    } catch (err) {
+      console.error('Failed to delete publication:', err)
+      return false
+    }
+  }
+
   const fetchUserData = async () => {
     const savedToken = token.value || localStorage.getItem('auth_token')
     if (!savedToken) {
@@ -325,7 +358,8 @@ export const useProfileStore = defineStore('profile', () => {
     checkAuth,
     updateHIndex,
     fetchUserData,
-    fetchUserPublications
+    fetchUserPublications,
+    deleteUserPublication
   }
 })
 
