@@ -59,7 +59,7 @@ const handleSubmit = async () => {
 
     const token = profileStore.token || localStorage.getItem('auth_token')
     
-    const response = await fetch('http://127.0.0.1:8000/articles/upload', {
+    const response = await fetch(`http://127.0.0.1:8000/users/${profileStore.scientist.id}/publications/upload`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`

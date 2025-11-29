@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useProfileStore } from '../stores/profile'
 import BaseInput from '@/components/base/BaseInput.vue'
+import { useInterestsStore } from '../stores/interests'
 
 const router = useRouter()
 
@@ -28,6 +29,7 @@ const validate = () => {
   return !errors.email && !errors.password
 }
 
+const interestsStore = useInterestsStore()
 const profileStore = useProfileStore()
 if (profileStore.isAuthorised) router.push('/profile')
 
@@ -65,6 +67,7 @@ const handleSubmit = async () => {
   result = await response.json()
   
   // Обновляем данные пользователя
+  interestsStore.selectedInterests = result.interests_list.split(',')
   profileStore.scientist.id = result.id
   profileStore.scientist.name = result.first_name + ' ' + result.last_name
   profileStore.scientist.username = result.login

@@ -1,5 +1,6 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   publications: {
@@ -18,11 +19,7 @@ const props = defineProps({
 
 const sortKey = ref('citations')
 const yearFilter = ref('all')
-const items = ref(props.sorter(sortKey.value, yearFilter.value))
-
-watch([sortKey, yearFilter], () => {
-  items.value = props.sorter(sortKey.value, yearFilter.value)
-})
+const items = computed(() => props.sorter(sortKey.value, yearFilter.value))
 
 const sortLabels = {
   citations: 'By citations',
@@ -59,27 +56,44 @@ const sortLabels = {
     </header>
 
     <div class="space-y-4 overflow-hidden rounded-2xl bg-surface/60 p-4">
-      <article
-        v-for="publication in items"
-        :key="publication.id"
-        class="rounded-2xl bg-white px-5 py-4 shadow-sm transition hover:-translate-y-1 hover:shadow-card"
+      <template v-if="items.length">
+        <article
+          v-for="publication in items"
+          :key="publication.id"
+          class="rounded-2xl bg-white px-5 py-4 shadow-sm transition hover:-translate-y-1 hover:shadow-card"
+        >
+          <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h4 class="text-xl font-semibold text-primary-dark">{{ publication.title }}</h4>
+              <p class="text-sm text-muted">
+                {{ publication.journal }} · {{ publication.year }}
+              </p>
+              <p class="mt-2 text-sm text-slate-600">
+                {{ publication.summary }}
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-3xl font-bold text-primary-dark">{{ publication.citations }}</p>
+              <p class="text-sm text-muted">citations</p>
+            </div>
+          </div>
+        </article>
+      </template>
+      <div
+        v-else
+        class="flex flex-col items-center justify-center gap-4 rounded-2xl bg-white px-6 py-10 text-center text-primary-dark shadow-sm"
       >
-        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h4 class="text-xl font-semibold text-primary-dark">{{ publication.title }}</h4>
-            <p class="text-sm text-muted">
-              {{ publication.journal }} · {{ publication.year }}
-            </p>
-            <p class="mt-2 text-sm text-slate-600">
-              {{ publication.summary }}
-            </p>
-          </div>
-          <div class="text-right">
-            <p class="text-3xl font-bold text-primary-dark">{{ publication.citations }}</p>
-            <p class="text-sm text-muted">citations</p>
-          </div>
-        </div>
-      </article>
+        <p class="text-lg font-semibold">You haven't any publications yet</p>
+        <p class="text-sm text-muted">
+          Add your first publications to start getting recommendations
+        </p>
+        <RouterLink
+          to="/new-article"
+          class="rounded-2xl bg-primary px-6 py-2 text-sm font-semibold text-white transition hover:bg-primary-dark"
+        >
+          Add new publication
+        </RouterLink>
+      </div>
     </div>
   </section>
 </template>

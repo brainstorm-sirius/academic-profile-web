@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useProfileStore } from '@/stores/profile'
@@ -22,7 +23,15 @@ const {
   years
 } = storeToRefs(profileStore)
 
-const { sortPublications } = profileStore
+const { sortPublications, fetchUserData, fetchUserPublications } = profileStore
+
+// Загружаем данные пользователя при открытии профиля
+onMounted(async () => {
+  const loaded = await fetchUserData()
+  if (loaded) {
+    await fetchUserPublications()
+  }
+})
 
 const handleAddNew = () => {
   router.push('/new-article')

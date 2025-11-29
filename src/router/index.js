@@ -7,6 +7,7 @@ const AuthorView = () => import('@/views/AuthorView.vue')
 const CollaborationView = () => import('@/views/CollaborationView.vue')
 const EditInterestsView = () => import('@/views/EditInterestsView.vue')
 const NewArticleView = () => import('@/views/NewArticleView.vue')
+const KnowledgeGraphView = () => import('@/views/KnowledgeGraphView.vue')
 
 const router = createRouter({
   history: createWebHistory(),
@@ -49,6 +50,11 @@ const router = createRouter({
       path: '/new-article',
       name: 'new-article',
       component: NewArticleView
+    },
+    {
+      path: '/knowledge-graph',
+      name: 'knowledge-graph',
+      component: KnowledgeGraphView
     }
   ],
   scrollBehavior() {

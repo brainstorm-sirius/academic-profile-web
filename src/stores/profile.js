@@ -213,6 +213,103 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
+  const syncPublicationMetrics = () => {
+    const totalCitations = publications.value.reduce(
+      (sum, item) => sum + (Number(item.citations) || 0),
+      0
+    )
+    const totalPublications = publications.value.length
+
+    const ensureMetric = (label, value) => {
+      const metric = scientist.value.metrics.find((m) => m.label === label)
+      if (metric) {
+        metric.value = value
+      } else {
+        scientist.value.metrics.push({ label, value })
+      }
+    }
+
+    ensureMetric('Citations', totalCitations)
+    ensureMetric('Publications', totalPublications)
+  }
+
+  const fetchUserPublications = async () => {
+    const savedToken = token.value || localStorage.getItem('auth_token')
+    if (!savedToken) {
+      return false
+    }
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/users/${scientist.value.id}/publications`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${savedToken}`
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to load publications')
+      }
+
+      const data = await response.json()
+      publications.value = Array.isArray(data)
+        ? data.map((item) => ({
+            id: item.id,
+            title: item.title,
+            journal: item.journal,
+            year: Number(item.publication_year) || item.publication_year,
+            citations: Number(item.citations) || 0,
+            summary: item.coauthors ? `Coauthors: ${item.coauthors}` : '',
+            authorName: item.author_name,
+            userId: item.user_id
+          }))
+        : []
+
+      syncPublicationMetrics()
+      return true
+    } catch (err) {
+      console.error('Failed to fetch publications:', err)
+      return false
+    }
+  }
+
+  const fetchUserData = async () => {
+    const savedToken = token.value || localStorage.getItem('auth_token')
+    if (!savedToken) {
+      return false
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/users/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${savedToken}`,
+        }
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        scientist.value.id = result.id
+        scientist.value.name = result.first_name + ' ' + result.last_name
+        scientist.value.username = result.login
+        
+        // Обновляем интересы, если они есть
+        if (result.interests_list) {
+          interestsStore.selectedInterests = result.interests_list.split(',').filter(i => i.trim())
+        }
+        
+        return true
+      } else {
+        return false
+      }
+    } catch (err) {
+      console.error('Failed to fetch user data:', err)
+      return false
+    }
+  }
+
   return {
     isAuthorised,
     token,
@@ -226,7 +323,9 @@ export const useProfileStore = defineStore('profile', () => {
     sortPublications,
     setAuthToken,
     checkAuth,
-    updateHIndex
+    updateHIndex,
+    fetchUserData,
+    fetchUserPublications
   }
 })
 
