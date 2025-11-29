@@ -39,7 +39,7 @@ export const useKnowledgeGraphStore = defineStore('knowledgeGraph', () => {
 
       let response
       try {
-        response = await fetch('http://localhost:8000/knowledge-graph', {
+        response = await fetch('http://academic.khokhlovkirill.ru:8000/knowledge-graph', {
           method: 'GET',
           headers: headers,
           signal: controller.signal

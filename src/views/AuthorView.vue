@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthorStore } from '@/stores/author'
 import ProfileSidebar from '@/components/profile/ProfileSidebar.vue'
+import MobileMenu from '@/components/profile/MobileMenu.vue'
 import ScientistCard from '@/components/profile/ScientistCard.vue'
 import AnalyticsPanel from '@/components/profile/AnalyticsPanel.vue'
 import TopicDistributionChart from '@/components/charts/TopicDistributionChart.vue'
@@ -43,6 +44,7 @@ watch(() => route.query.id, () => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-surface lg:flex-row">
+    <MobileMenu />
     <ProfileSidebar />
     <main class="flex-1 px-4 py-8 lg:px-10">
       <div v-if="loading" class="flex h-full items-center justify-center py-20">

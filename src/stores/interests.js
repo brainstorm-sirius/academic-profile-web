@@ -71,7 +71,7 @@ export const useInterestsStore = defineStore('interests', () => {
     // For now, we'll just keep it in the store
     // topicDistribution in profileStore will automatically update via computed
     console.log('Saving interests:', selectedInterests.value)
-    fetch('http://localhost:8000/users/interests', {  
+    fetch('http://academic.khokhlovkirill.ru:8000/users/interests', {  
       method: 'PUT',  
       headers: {  
           'Content-Type': 'application/json',  

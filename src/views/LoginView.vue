@@ -35,7 +35,7 @@ if (profileStore.isAuthorised) router.push('/profile')
 
 const handleSubmit = async () => {
   if (!validate()) return
-  let response = await fetch('http://127.0.0.1:8000/auth/login', {
+  let response = await fetch('http://academic.khokhlovkirill.ru:8000/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ const handleSubmit = async () => {
   const accessToken = result.access_token
   profileStore.setAuthToken(accessToken)
 
-  response = await fetch('http://127.0.0.1:8000/users/me', {
+  response = await fetch('http://academic.khokhlovkirill.ru:8000/users/me', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

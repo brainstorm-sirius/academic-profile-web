@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProfileStore } from '@/stores/profile'
 import ProfileSidebar from '@/components/profile/ProfileSidebar.vue'
+import MobileMenu from '@/components/profile/MobileMenu.vue'
 
 const router = useRouter()
 const profileStore = useProfileStore()
@@ -59,7 +60,7 @@ const handleSubmit = async () => {
 
     const token = profileStore.token || localStorage.getItem('auth_token')
     
-    const response = await fetch(`http://127.0.0.1:8000/users/${profileStore.scientist.id}/publications/upload`, {
+    const response = await fetch(`http://academic.khokhlovkirill.ru:8000/users/${profileStore.scientist.id}/publications/upload`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -100,6 +101,7 @@ const handleCancel = () => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-surface lg:flex-row">
+    <MobileMenu />
     <ProfileSidebar />
     <main class="flex-1 px-4 py-8 lg:px-10">
       <header class="mb-8">

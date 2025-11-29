@@ -18,30 +18,60 @@ const props = defineProps({
 const profileStore = useProfileStore()
 const showEditModal = ref(false)
 const hIndexValue = ref('')
+const orcidValue = ref('')
 const error = ref('')
+const orcidError = ref('')
 
 const openEditModal = () => {
   const hIndexMetric = props.scientist.metrics.find(m => m.label === 'H-Index')
   hIndexValue.value = hIndexMetric ? hIndexMetric.value : ''
+  orcidValue.value = props.scientist.orcid || ''
   error.value = ''
+  orcidError.value = ''
   showEditModal.value = true
 }
 
 const closeEditModal = () => {
   showEditModal.value = false
   hIndexValue.value = ''
+  orcidValue.value = ''
   error.value = ''
+  orcidError.value = ''
+}
+
+const validateORCID = (orcid) => {
+  // ORCID format: XXXX-XXXX-XXXX-XXXX (16 digits with hyphens)
+  const orcidRegex = /^\d{4}-\d{4}-\d{4}-\d{4}$/
+  return orcidRegex.test(orcid)
 }
 
 const handleSave = () => {
-  const value = parseInt(hIndexValue.value)
-  
-  if (isNaN(value) || value < 0) {
+  // Validate H-Index
+  const hIndex = parseInt(hIndexValue.value)
+  if (isNaN(hIndex) || hIndex < 0) {
     error.value = 'Please enter a valid positive number'
     return
   }
 
-  profileStore.updateHIndex(value.toString())
+  // Validate ORCID
+  const trimmedORCID = orcidValue.value.trim()
+  if (!trimmedORCID) {
+    orcidError.value = 'ORCID is required'
+    return
+  }
+
+  if (!validateORCID(trimmedORCID)) {
+    orcidError.value = 'Please enter a valid ORCID format (XXXX-XXXX-XXXX-XXXX)'
+    return
+  }
+
+  // Clear errors if validation passes
+  error.value = ''
+  orcidError.value = ''
+
+  // Update both values
+  profileStore.updateHIndex(hIndex.toString())
+  profileStore.updateORCID(trimmedORCID)
   closeEditModal()
 }
 
@@ -59,7 +89,7 @@ const handleModalClick = (e) => {
       v-if="!isAuthor"
       @click="openEditModal"
       class="absolute right-4 top-4 rounded-lg bg-primary/10 p-2 text-primary transition hover:bg-primary/20"
-      title="Edit H-Index"
+      title="Edit H-Index & ORCID"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +141,7 @@ const handleModalClick = (e) => {
         class="w-full max-w-md rounded-2xl bg-white p-6 shadow-lg"
       >
         <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-xl font-bold text-primary-dark">Edit H-Index</h3>
+          <h3 class="text-xl font-bold text-primary-dark">Edit H-Index & ORCID</h3>
           <button
             @click="closeEditModal"
             class="rounded-lg p-1 text-muted transition hover:bg-surface"
@@ -133,13 +163,24 @@ const handleModalClick = (e) => {
           </button>
         </div>
 
-        <div class="mb-6">
+        <div class="mb-4">
           <BaseInput
             v-model="hIndexValue"
             label="H-Index"
             type="number"
             placeholder="Enter H-Index value"
             :error="error"
+            required
+          />
+        </div>
+
+        <div class="mb-6">
+          <BaseInput
+            v-model="orcidValue"
+            label="ORCID"
+            type="text"
+            placeholder="XXXX-XXXX-XXXX-XXXX"
+            :error="orcidError"
             required
           />
         </div>

@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCollaborationStore } from '@/stores/collaboration'
 import ProfileSidebar from '@/components/profile/ProfileSidebar.vue'
+import MobileMenu from '@/components/profile/MobileMenu.vue'
 import CollaborationScientistCard from '@/components/collaboration/CollaborationScientistCard.vue'
 
 const collaborationStore = useCollaborationStore()
@@ -23,6 +24,7 @@ const handleRecommend = () => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-surface lg:flex-row">
+    <MobileMenu />
     <ProfileSidebar />
     <main class="flex-1 px-4 py-8 lg:px-10">
       <header class="mb-8">

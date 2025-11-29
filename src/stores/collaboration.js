@@ -32,7 +32,7 @@ export const useCollaborationStore = defineStore('collaboration', () => {
         publications.push(item.title)
       }
 
-      const response = await fetch(`http://localhost:8000/recommend`, {
+      const response = await fetch(`http://academic.khokhlovkirill.ru:8000/recommend`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

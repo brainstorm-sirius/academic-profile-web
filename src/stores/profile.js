@@ -132,11 +132,11 @@ export const useProfileStore = defineStore('profile', () => {
     name: 'Egor Petryaev',
     role: 'Scientist, Artificial Intelligence Laboratory',
     affiliation: 'Sirius University',
-    orcid: '0000-0002-3740-1122',
+    orcid: '0000-0000-0000-0000',
     about:
       'Исследую приложения генеративных моделей для климатического моделирования и устойчивой энергетики. Руководитель инициатив по цифровым двойникам научных лабораторий.',
     metrics: [
-      { label: 'H-Index', value: '28' },
+      { label: 'H-Index', value: '0' },
       { label: 'Citations', value: citationsCount },
       { label: 'Publications', value: publications.value.length }
     ]
@@ -179,7 +179,7 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/users/me', {
+      const response = await fetch('http://academic.khokhlovkirill.ru:8000/users/me', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -213,6 +213,10 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
+  const updateORCID = (value) => {
+    scientist.value.orcid = value
+  }
+
   const syncPublicationMetrics = () => {
     const totalCitations = publications.value.reduce(
       (sum, item) => sum + (Number(item.citations) || 0),
@@ -240,7 +244,7 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/users/${scientist.value.id}/publications`, {
+      const response = await fetch(`http://academic.khokhlovkirill.ru:8000/users/${scientist.value.id}/publications`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -284,7 +288,7 @@ export const useProfileStore = defineStore('profile', () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/users/${userId}/publications/${publicationId}`,
+        `http://academic.khokhlovkirill.ru:8000/users/${userId}/publications/${publicationId}`,
         {
           method: 'DELETE',
           headers: {
@@ -314,7 +318,7 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/users/me', {
+      const response = await fetch('http://academic.khokhlovkirill.ru:8000/users/me', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -357,6 +361,7 @@ export const useProfileStore = defineStore('profile', () => {
     setAuthToken,
     checkAuth,
     updateHIndex,
+    updateORCID,
     fetchUserData,
     fetchUserPublications,
     deleteUserPublication

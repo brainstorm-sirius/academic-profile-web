@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useProfileStore } from '@/stores/profile'
 import ProfileSidebar from '@/components/profile/ProfileSidebar.vue'
+import MobileMenu from '@/components/profile/MobileMenu.vue'
 import ScientistCard from '@/components/profile/ScientistCard.vue'
 import AnalyticsPanel from '@/components/profile/AnalyticsPanel.vue'
 import CitationTrendChart from '@/components/charts/CitationTrendChart.vue'
@@ -40,6 +41,7 @@ const handleAddNew = () => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-surface lg:flex-row">
+    <MobileMenu />
     <ProfileSidebar />
     <main class="flex-1 px-4 py-8 lg:px-10">
       <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
