@@ -19,22 +19,20 @@ onMounted(() => {
     <ProfileSidebar />
     <main class="flex-1 px-4 py-8 lg:px-10">
       <header class="mb-8">
-        <h1 class="mb-2 text-3xl font-bold text-primary-dark">Граф знаний</h1>
+        <h1 class="mb-2 text-3xl font-bold text-primary-dark">Knowledge graph</h1>
         <p class="text-muted">
-          Визуализация связей между учеными и областями их интересов. Крупные вершины - области
-          интересов, мелкие - ученые.
+          Visualization of connections between scientists and their fields of interest. The big peaks are areas of interest, the small ones are scientists.
         </p>
       </header>
 
       <div v-if="loading" class="flex h-full items-center justify-center py-20">
         <div class="text-center">
           <div class="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-          <p class="text-lg font-semibold text-primary-dark">Загрузка графа знаний...</p>
+          <p class="text-lg font-semibold text-primary-dark">Loading...</p>
         </div>
       </div>
 
       <div v-else class="space-y-6">
-        <!-- Показываем предупреждение об ошибке, если есть, но данные загружены -->
         <div v-if="error && graphData.nodes.length > 0" class="rounded-2xl bg-yellow-50 border border-yellow-200 p-4 shadow-card">
           <div class="flex items-start gap-3">
             <div class="flex-shrink-0">
@@ -43,10 +41,10 @@ onMounted(() => {
               </svg>
             </div>
             <div class="flex-1">
-              <p class="text-sm font-semibold text-yellow-800">Используются тестовые данные</p>
+              <p class="text-sm font-semibold text-yellow-800">Mock data is used!</p>
               <p class="text-xs text-yellow-700 mt-1">{{ error }}</p>
               <p class="text-xs text-yellow-600 mt-1">
-                Убедитесь, что backend предоставляет endpoint /knowledge-graph
+                Make sure that the backend provides an endpoint.
               </p>
             </div>
             <button
@@ -58,31 +56,29 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- Показываем ошибку только если нет данных -->
         <div v-if="error && graphData.nodes.length === 0" class="rounded-2xl bg-white p-6 shadow-card">
           <div class="flex flex-col items-center justify-center gap-4 py-10">
-            <p class="text-lg font-semibold text-primary-dark">Ошибка загрузки</p>
+            <p class="text-lg font-semibold text-primary-dark">Error</p>
             <p class="text-sm text-muted">{{ error }}</p>
             <button
               class="rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-primary-dark"
               @click="fetchGraphData"
             >
-              Попробовать снова
+              Try again
             </button>
           </div>
         </div>
 
-        <!-- Показываем граф, если есть данные -->
         <div v-if="graphData.nodes.length > 0" class="space-y-6">
         <div class="rounded-2xl bg-white shadow-card overflow-hidden">
           <div class="p-6 pb-4 flex flex-wrap items-center gap-4">
             <div class="flex items-center gap-2">
               <div class="h-4 w-4 rounded border-2 border-[#142850] bg-[#5BC0F8]"></div>
-              <span class="text-sm font-medium text-primary-dark">Области интересов</span>
+              <span class="text-sm font-medium text-primary-dark">Areas of interest</span>
             </div>
             <div class="flex items-center gap-2">
               <div class="h-4 w-4 rounded-full bg-[#7C3AED] border-2 border-[#5BC0F8]"></div>
-              <span class="text-sm font-medium text-primary-dark">Ученые</span>
+              <span class="text-sm font-medium text-primary-dark">Scientists</span>
             </div>
           </div>
           
@@ -93,20 +89,20 @@ onMounted(() => {
 
         <div class="grid gap-4 rounded-2xl bg-white p-6 shadow-card md:grid-cols-2">
           <div>
-            <p class="mb-2 text-sm font-semibold text-primary-dark">Статистика графа</p>
+            <p class="mb-2 text-sm font-semibold text-primary-dark">Graph statistics:</p>
             <div class="space-y-2 text-sm text-muted">
-              <p>Областей интересов: {{ graphData.nodes.filter(n => n.group === 'interest').length }}</p>
-              <p>Ученых: {{ graphData.nodes.filter(n => n.group === 'scientist').length }}</p>
-              <p>Связей: {{ graphData.edges.length }}</p>
+              <p>Areas of interest: {{ graphData.nodes.filter(n => n.group === 'interest').length }}</p>
+              <p>Scientists: {{ graphData.nodes.filter(n => n.group === 'scientist').length }}</p>
+              <p>Relations: {{ graphData.edges.length }}</p>
             </div>
           </div>
           <div>
-            <p class="mb-2 text-sm font-semibold text-primary-dark">Инструкции</p>
+            <p class="mb-2 text-sm font-semibold text-primary-dark">Instructions</p>
             <ul class="space-y-1 text-xs text-muted">
-              <li>• Перетаскивайте узлы для изменения расположения</li>
-              <li>• Используйте колесико мыши для масштабирования</li>
-              <li>• Наведите курсор на узел для получения информации</li>
-              <li>• Кликните на узел для выделения</li>
+              <li>• Drag the nodes to change the location</li>
+              <li>• Use the mouse wheel to zoom</li>
+              <li>• Hover the cursor over the node to get information</li>
+              <li>• Click on the node to highlight</li>
             </ul>
           </div>
         </div>
